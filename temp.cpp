@@ -13,13 +13,34 @@ void printResultTemp(int startingTempScale, int endingTempScale, int startingTem
 string temperature_scales[3] = {"Fahrenheit", "Celcius", "Kelvin"}; // Array of different temperature scales.
 
 int main() {
-    int startingTempScale;  // Hold the placeholder value for starting temperature scale.
-                            // 0 - Fahrenheit
-                            // 1 - Celcius
-                            // 2 - Kelvin
-    startingTempScale = printWelcomeMessage(); // Obtain the users starting temperature scale.
+    bool repeat = true; // Boolean flag used to escape repeat loop.     True - Repeat / False - Terminate
+    char userRepeatSelection; // Character to hold user-input.
 
-    calculateResultTemp(startingTempScale);
+    while(1) { // Allow the user to convert multiple temperatures until they are done.
+        if(repeat) {
+            int startingTempScale;  // Hold the placeholder value for starting temperature scale.
+                                    // 0 - Fahrenheit
+                                    // 1 - Celcius
+                                    // 2 - Kelvin
+            startingTempScale = printWelcomeMessage(); // Obtain the users starting temperature scale.
+
+            calculateResultTemp(startingTempScale);
+        }
+        cout << "\n\nWould you like to convert another temperature?\n";
+        cout << "[y/n]: ";
+
+        cin >> userRepeatSelection; // User-input for repeating or terminating.
+
+        while(userRepeatSelection != 'y' && userRepeatSelection != 'n') { // User-input validation.
+            cout << "Invalid input. Enter 'y' or 'n' here: ";
+
+            cin >> userRepeatSelection; // Allow user to input correct value.
+        }
+
+        if(userRepeatSelection == 'n') { // If the user choses no, terminate.
+            break;
+        }
+    }
 
     return 0;
 }
