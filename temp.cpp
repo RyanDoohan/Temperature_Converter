@@ -7,7 +7,7 @@ using namespace std;
 int printWelcomeMessage(); // Print the welcome message and obtain starting temperature from user.
 int calculateResultTempScale(int startingTempScale); // Obtain the resulting temperature scale from user.
 int calculateResultTemp(int startingTempScale); // Wrapper function for generating the result temp, uses generateTemp().
-double generateTemp(int startingTempScale, int endingTempScale, int startingTemp); // Generates the final resulting temperature.
+float generateTemp(int startingTempScale, int endingTempScale, int startingTemp); // Generates the final resulting temperature.
 void printResultTemp(int startingTempScale, int endingTempScale, int startingTemp, double resultTemp);
 
 string temperature_scales[3] = {"Fahrenheit", "Celcius", "Kelvin"};
@@ -49,35 +49,10 @@ int printWelcomeMessage() {
 int calculateResultTempScale(int startingTempScale) {
     int resultTempScale;
 
-    switch (startingTempScale)
-    {
-    case 0: {
-        cout << "\n1.) Celcius\n2.) Kelvin\n";
-        cout << "Enter the temperature scale you want to convert to here: ";
+    cout << "1.) Fahrenheit\n2.) Celcius\n3.) Kelvin\n";
+    cout << "Enter the resulting temperature scale here: ";
 
-        cin >> resultTempScale;
-
-        break;
-    }
-    case 1: {
-        cout << "\n1.) Fahrenheit\n2.) Kelvin\n";
-        cout << "Enter the temperature scale you want to convert to here: ";
-
-        cin >> resultTempScale;
-        
-        break;
-    }
-    case 2: {
-        cout << "\n1.) Fahrenheit\n2.) Celcius\n";
-        cout << "Enter the temperature scale you want to convert to here: ";
- 
-        cin >> resultTempScale;
-        
-        break;
-    }
-    default:
-        break;
-    }
+    cin >> resultTempScale;
 
     return resultTempScale;
 }
@@ -87,6 +62,8 @@ int calculateResultTemp(int startingTempScale) {
     double resultTemp;
 
     int resultTempScale = calculateResultTempScale(startingTempScale);
+
+    resultTempScale--; // Decrement the result temperature scale to  align with temperature scale array.
 
     cout << "\n\nEnter your starting temperature in " << temperature_scales[startingTempScale] << " here: ";
 
@@ -107,8 +84,8 @@ int calculateResultTemp(int startingTempScale) {
     return resultTemp;
 }
 
-double generateTemp(int startingTempScale, int endingTempScale, int startingTemp) {
-    double resultTemp;
+float generateTemp(int startingTempScale, int endingTempScale, int startingTemp) {
+    float resultTemp, celciusMult = 1.80;
 
     switch (startingTempScale)
     {
@@ -116,7 +93,15 @@ double generateTemp(int startingTempScale, int endingTempScale, int startingTemp
         if(endingTempScale == 1) {
             resultTemp = (startingTemp - 32) * 0.5556;
         }
+        if(endingTempScale == 2) {
+            resultTemp = (startingTemp + 459.67) * 5/9;
+        }
         break;
+    case 1:
+        if(endingTempScale == 0) {
+            resultTemp = startingTemp * celciusMult;
+            resultTemp += 32;
+        }
     default:
         break;
     }
